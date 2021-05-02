@@ -14,7 +14,6 @@ namespace CustomDiscordRichPresence
     public partial class CustomRichPresence : Form
     {
         public DiscordRpcClient client;
-        public string applicationID = "";
 
         public CustomRichPresence()
         {
@@ -25,22 +24,41 @@ namespace CustomDiscordRichPresence
         {
         }
 
-        private void DiscordRichPresence()
+        private void DiscordRichPresence(object sender, EventArgs e)
         {
-            client = new DiscordRpcClient(applicationID);
+            client = new DiscordRpcClient(textBoxAppId.Text);
 
             client.Initialize();
 
             client.SetPresence(new RichPresence()
             {
-                Details = "Debugging RichPresence",
-                State = "Working...",
+                Details = textBoxDetails.Text,
+                State = textBoxState.Text,
                 Assets = new Assets()
                 {
-                    LargeImageKey = "logo",
-                    LargeImageText = "RPC",
+                    LargeImageKey = textBoxLImageKey.Text,
+                    LargeImageText = textBoxLImageText.Text,
+                    SmallImageKey = textBoxSImageKey.Text,
+                    SmallImageText = textBoxSImageText.Text,
                 }
             });
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            DiscordRichPresence(sender, e);
+        }
+
+        private void linkDevPortal_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            linkDevPortal.LinkVisited = true;
+            System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo("cmd", $"/c start https://discord.com/developers/applications") { CreateNoWindow = true });
+        }
+
+        private void linkTuto_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            linkTuto.LinkVisited = true;
+            System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo("cmd", $"/c start https://github.com/Cu-chi/CustomDiscordRichPresence/wiki/Tutorial") { CreateNoWindow = true });
         }
     }
 }
